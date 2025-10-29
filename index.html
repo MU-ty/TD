@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PCI 文档仓库结构</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #6b7280;
+      --brand: #2563eb;
+      --brand-weak: #dbeafe;
+      --border: #e5e7eb;
+      --card: #f8fafc;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b0f16;
+        --fg: #e5e7eb;
+        --muted: #9ca3af;
+        --brand: #60a5fa;
+        --brand-weak: #1f2937;
+        --border: #1f2937;
+        --card: #0f172a;
+      }
+    }
+    html, body { height: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK", sans-serif; line-height: 1.6; }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+    nav { position: sticky; top: 0; align-self: start; padding: 20px 16px; border-right: 1px solid var(--border); background: var(--bg); height: 100vh; overflow: auto; }
+    .brand { font-weight: 700; font-size: 18px; }
+    .date { color: var(--muted); font-size: 12px; }
+    .search { margin: 16px 0; }
+    .search input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--fg); outline: none; }
+
+    .toc { display: none; }
+
+    main { padding: 24px; }
+    header.hero { background: linear-gradient(120deg, var(--brand-weak), transparent 60%); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+    header.hero h1 { margin: 0 0 4px 0; font-size: 24px; }
+    header.hero p { margin: 0; color: var(--muted); }
+
+    .toolbar { display: flex; gap: 8px; margin: 12px 0 24px; flex-wrap: wrap; }
+    .btn { border: 1px solid var(--border); background: var(--card); color: var(--fg); padding: 8px 10px; border-radius: 10px; cursor: pointer; font-size: 13px; }
+
+    section.card { border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin: 18px 0; background: var(--card); }
+    section.card h2 { margin-top: 0; }
+    section.card .meta { color: var(--muted); font-size: 12px; margin-top: -6px; }
+
+    /* 文件树样式 */
+    .tree { list-style: none; padding-left: 0; }
+    .tree li { margin: 4px 0; }
+    .node { display: flex; align-items: center; gap: 8px; }
+    .node .toggle { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; width: 18px; text-align: center; cursor: pointer; user-select: none; color: var(--muted); }
+    .dir > .node { cursor: pointer; }
+    .children { padding-left: 18px; margin: 4px 0; }
+    .file { color: var(--fg); }
+    .dir-name { font-weight: 600; }
+    .muted { color: var(--muted); }
+
+    .backtop { position: fixed; right: 18px; bottom: 18px; z-index: 20; padding: 10px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); cursor: pointer; display: none; }
+    .hidden { display: none !important; }
+
+    @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } nav { position: static; height: auto; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <div class="brand">PCI 文档仓库结构</div>
+      <div class="date">最后更新：2025-10-29</div>
+      <div class="search">
+        <input id="search" placeholder="搜索文件或文件夹…" />
+      </div>
+      <ul class="toc" id="toc"></ul>
+      <div class="sidenote">注：Translated文件是翻译后的文档，json为对比摘要及评分文档。</div>
+    </nav>
+
+    <main>
+      <header class="hero">
+        <h1>PCI 文档仓库结构</h1>
+        <p>仅展示仓库目录树，不包含 RST 文档具体内容。</p>
+      </header>
+
+      <div class="toolbar">
+        <button class="btn" id="expandAll">展开全部</button>
+        <button class="btn" id="collapseAll">折叠全部</button>
+      </div>
+
+      <section class="card" id="repo-tree">
+        <h2>仓库目录树</h2>
+        <div class="meta">静态</div>
+        <ul class="tree" id="tree">
+          <li class="dir" data-name="PCI">
+            <div class="node"><span class="toggle">▶</span><span class="dir-name">PCI/</span></div>
+            <ul class="children hidden">
+              <li class="dir" data-name="boot-interrupts">
+                <div class="node"><span class="toggle">▶</span><span class="dir-name">boot-interrupts/</span></div>
+                <ul class="children hidden">
+                  <li class="file" data-name="boot-interrupts_translated.rst"><span>boot-interrupts_translated.rst</span></li>
+                  <li class="file" data-name="boot-interrupts_translated.stats.json"><span class="muted">boot-interrupts_translated.stats.json</span></li>
+                </ul>
+              </li>
+              <li class="dir" data-name="controller">
+                <div class="node"><span class="toggle">▶</span><span class="dir-name">controller/</span></div>
+                <ul class="children hidden">
+                  <li class="dir" data-name="index">
+                    <div class="node"><span class="toggle">▶</span><span class="dir-name">index/</span></div>
+                    <ul class="children hidden">
+                      <li class="file" data-name="index_translated.rst"><span>index_translated.rst</span></li>
+                      <li class="file" data-name="index_translated.stats.json"><span class="muted">index_translated.stats.json</span></li>
+                    </ul>
+                  </li>
+                  <li class="dir" data-name="rcar-pcie-firmware">
+                    <div class="node"><span class="toggle">▶</span><span class="dir-name">rcar-pcie-firmware/</span></div>
+                    <ul class="children hidden">
+                      <li class="file" data-name="rcar-pcie-firmware_translated.rst"><span>rcar-pcie-firmware_translated.rst</span></li>
+                      <li class="file" data-name="rcar-pcie-firmware_translated.stats.json"><span class="muted">rcar-pcie-firmware_translated.stats.json</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="dir" data-name="pci-error-recovery">
+                <div class="node"><span class="toggle">▶</span><span class="dir-name">pci-error-recovery/</span></div>
+                <ul class="children hidden">
+                  <li class="file" data-name="pci-error-recovery_translated.rst"><span>pci-error-recovery_translated.rst</span></li>
+                  <li class="file" data-name="pci-error-recovery_translated.stats.json"><span class="muted">pci-error-recovery_translated.stats.json</span></li>
+                </ul>
+              </li>
+              <li class="dir" data-name="pcieaer-howto">
+                <div class="node"><span class="toggle">▶</span><span class="dir-name">pcieaer-howto/</span></div>
+                <ul class="children hidden">
+                  <li class="file" data-name="pcieaer-howto_translated.rst"><span>pcieaer-howto_translated.rst</span></li>
+                  <li class="file" data-name="pcieaer-howto_translated.stats.json"><span class="muted">pcieaer-howto_translated.stats.json</span></li>
+                </ul>
+              </li>
+              <li class="dir" data-name="tph">
+                <div class="node"><span class="toggle">▶</span><span class="dir-name">tph/</span></div>
+                <ul class="children hidden">
+                  <li class="file" data-name="tph_translated.rst"><span>tph_translated.rst</span></li>
+                  <li class="file" data-name="tph_translated.stats.json"><span class="muted">tph_translated.stats.json</span></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <p class="sidenote">注：Translated文件是翻译后的文档，json为对比摘要及评分文档。</p>
+    </main>
+  </div>
+
+  <button id="backtop" class="backtop">↑ 顶部</button>
+
+  <script>
+    (function() {
+      function setOpenState(dirEl, open) {
+        const children = dirEl.querySelector(':scope > .children');
+        const toggle = dirEl.querySelector(':scope > .node .toggle');
+        if (!children || !toggle) return;
+        if (open) { children.classList.remove('hidden'); toggle.textContent = '▼'; }
+        else { children.classList.add('hidden'); toggle.textContent = '▶'; }
+      }
+
+      document.querySelectorAll('#tree .dir > .node').forEach(node => {
+        node.addEventListener('click', (e) => {
+          const dir = node.parentElement;
+          const children = dir.querySelector(':scope > .children');
+          if (!children) return;
+          const isHidden = children.classList.contains('hidden');
+          setOpenState(dir, isHidden);
+          e.stopPropagation();
+        });
+      });
+
+      const expandAll = document.getElementById('expandAll');
+      const collapseAll = document.getElementById('collapseAll');
+      expandAll.addEventListener('click', () => {
+        document.querySelectorAll('#tree .dir').forEach(d => setOpenState(d, true));
+      });
+      collapseAll.addEventListener('click', () => {
+        document.querySelectorAll('#tree .dir').forEach(d => setOpenState(d, false));
+      });
+
+      const search = document.getElementById('search');
+      const treeRoot = document.getElementById('tree');
+      function applyFilter() {
+        const q = search.value.trim().toLowerCase();
+        treeRoot.querySelectorAll('li').forEach(li => li.classList.remove('hidden'));
+        if (!q) { document.querySelectorAll('#tree .dir').forEach(d => setOpenState(d, false)); return; }
+        treeRoot.querySelectorAll('li').forEach(li => {
+          const text = li.innerText.toLowerCase();
+          if (!text.includes(q)) li.classList.add('hidden');
+        });
+        document.querySelectorAll('#tree .dir').forEach(d => setOpenState(d, true));
+      }
+      search.addEventListener('input', applyFilter);
+
+      const back = document.getElementById('backtop');
+      window.addEventListener('scroll', () => {
+        back.style.display = window.scrollY > 600 ? 'block' : 'none';
+      });
+      back.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+  </script>
+</body>
+</html>
