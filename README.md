@@ -1,6 +1,6 @@
-# TD
+# Translated document
 
-此仓库存放使用LT智能体翻译后的文档
+此仓库存放使用LT智能体翻译后的Linux-inside中文文档
 
 ---
 
